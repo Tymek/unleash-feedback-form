@@ -3,7 +3,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 // const unleash = require('unleash-client');
-const unleash = require("../sdk/unleash-client-node/lib");
+const unleash = require("../sdk-vendor/lib");
 
 const app = express();
 app.use(express.static("public"));
