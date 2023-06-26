@@ -1,0 +1,141 @@
+{
+  "name": "unleash-client",
+  "version": "4.0.1",
+  "description": "Unleash Client for Node",
+  "license": "Apache-2.0",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "scripts": {
+    "version": "./scripts/update-build-details.sh $npm_package_version",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix  && prettier --write '{src,examples}/**/*.ts'",
+    "prebuild": "del-cli --force lib",
+    "build": "tsc -p .",
+    "prepare": "yarn run build",
+    "test": "cross-env NODE_ENV=test yarn run build && ava",
+    "coverage": "nyc --reporter=lcov yarn test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:Unleash/unleash-client-node.git"
+  },
+  "keywords": [
+    "unleash",
+    "client",
+    "feature toggle"
+  ],
+  "bugs": {
+    "url": "https://github.com/Unleash/unleash-client-node/issues"
+  },
+  "homepage": "https://github.com/Unleash/unleash-client-node",
+  "dependencies": {
+    "ip": "^1.1.8",
+    "make-fetch-happen": "^11.1.1",
+    "murmurhash3js": "^3.0.1",
+    "semver": "^7.5.2"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "files": [
+    "lib",
+    "!lib/test",
+    "examples"
+  ],
+  "devDependencies": {
+    "@ava/babel": "^2.0.0",
+    "@ava/typescript": "^4.0.0",
+    "@tsconfig/node12": "^1.0.11",
+    "@types/express": "^4.17.17",
+    "@types/ip": "^1.1.0",
+    "@types/make-fetch-happen": "^10.0.1",
+    "@types/murmurhash3js": "^3.0.3",
+    "@types/nock": "^11.1.0",
+    "@types/node": "^20.2.5",
+    "@types/semver": "^7.5.0",
+    "@types/sinon": "^10.0.15",
+    "@typescript-eslint/eslint-plugin": "^5.59.11",
+    "@typescript-eslint/parser": "^5.59.9",
+    "@unleash/client-specification": "^4.2.2",
+    "ava": "^5.3.0",
+    "coveralls": "^3.1.1",
+    "cross-env": "^7.0.3",
+    "del-cli": "^5.0.0",
+    "eslint": "^8.42.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-import-resolver-typescript": "^3.5.5",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-prettier": "^4.2.1",
+    "esm": "^3.2.25",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.2",
+    "mkdirp": "^3.0.1",
+    "nock": "^13.3.1",
+    "nyc": "^15.1.0",
+    "prettier": "^2.8.8",
+    "redis": "^4.6.7",
+    "sinon": "^15.1.2",
+    "typescript": "^5.1.3"
+  },
+  "resolutions": {
+    "ansi-regex": "^5.0.1",
+    "debug": "^4.0.0",
+    "json-schema": "^0.4.0",
+    "json5": "^2.0.0",
+    "qs": "^6.5.3",
+    "minimatch": "^3.0.5"
+  },
+  "nyc": {
+    "lines": 95,
+    "statements": 95,
+    "functions": 95,
+    "branches": 80,
+    "include": [
+      "lib/**.js",
+      "lib/**/*.js"
+    ],
+    "all": true,
+    "exclude-after-remap": false
+  },
+  "prettier": {
+    "printWidth": 100,
+    "proseWrap": "always",
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "all",
+    "overrides": [
+      {
+        "files": "*.json",
+        "options": {
+          "tabWidth": 2
+        }
+      }
+    ]
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix"
+    ],
+    "*.{ts,md,json}": [
+      "prettier --write"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "ava": {
+    "typescript": {
+      "rewritePaths": {
+        "src/": "lib/"
+      },
+      "compile": false
+    },
+    "files": [
+      "src/**/*.test.ts"
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "extends": "@tsconfig/node12/tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./lib",
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": false,
+    "skipLibCheck": false
+  },
+  "exclude": ["examples/", "lib/", "node_modules/"]
+}
