@@ -12,11 +12,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Unleash client setup
 // Use PRO Sandbox
 const client = unleash.initialize({
-  url: "https://sandbox.getunleash.io/pro/api/",
+  url: "http://localhost:4242/api/",
   appName: "feedback-hackathon-node",
   customHeaders: {
     Authorization:
-      "*:development.d504b7eadca9b786eede3821c62ea0eed3a1fe31ded8b26066f51204",
+      process.env.API_KEY ||
+      "*:development.7251814dd48c21eb698c485e9b63233fbfd5bd51f8fa46314a5678fd",
   },
 });
 
@@ -65,4 +66,4 @@ app.post("/feedback", (req, res) => {
   res.send("Thanks for your feedback!");
 });
 
-app.listen(3000, () => console.log("Example app listening on port 3000!"));
+app.listen(3003, () => console.log("Example app listening on port 3000!"));

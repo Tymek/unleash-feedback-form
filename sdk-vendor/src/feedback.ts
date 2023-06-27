@@ -1,7 +1,8 @@
-import { Context } from './context';
+import type { Context } from './context';
 import { HttpOptions } from './http-options';
 import { post } from './request';
 import { suffixSlash, resolveUrl } from './url-utils';
+import * as murmurHash3 from 'murmurhash3js';
 
 export function createSendFeedback(
   url: string,
@@ -11,11 +12,31 @@ export function createSendFeedback(
   timeout?: number,
   httpOptions?: HttpOptions,
 ) {
-  return async (toggleName: string, payload: number, context: Context = {}): Promise<void> => {
+  return async (
+    featureName: string,
+    payload: number,
+    context: Context = {},
+    metadata?: object,
+  ): Promise<void> => {
     try {
+      let contextHash: string | undefined;
+      if (context.userId) {
+        // FIXME: safe hashing function
+        contextHash = murmurHash3.x64.hash128(context.userId, 31);
+      } else if (context.sessionId) {
+        contextHash = murmurHash3.x64.hash128(context.sessionId, 31);
+      }
+
+      const json = {
+        featureName,
+        contextHash,
+        payload,
+        metadata,
+      };
+
       const res = await post({
         url: resolveUrl(suffixSlash(url), './client/feedback'),
-        json: { toggleName, payload, context },
+        json,
         appName: appName,
         instanceId,
         headers,
